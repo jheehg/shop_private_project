@@ -1,0 +1,59 @@
+
+<% for(let i=0; i<review.length; i++) { %>
+<div class="row mx-auto p-3 pb-5 border-bottom border-info">
+  <div class="col-md-8">
+    <p class="pb-1 mb-2 d-flex justify-content-between border-bottom border-info">
+      <small>구입 날짜 
+        <b><%=review[i][10].getFullYear()%>
+            - <%=(review[i][10].getMonth()+1).toString().length<2? 0+((review[i][10].getMonth()+1).toString()): (review[i][10].getMonth()+1)%>
+            - <%=review[i][10].getDate().toString().length<2? 0+(review[i][10].getDate().toString()):review[i][10].getDate()%></b>
+    </small>
+    <span style="font-size:0.9rem"><small>작성자: </small><%=review[i][4]%></span> <!-- 작성자 -->
+  </p>
+    <p class="mb-2">
+        <span class="mr-2" style="font-weight: 400"><%=review[i][5]%></span> <!-- 상품명 -->
+        <span class="mr-2 text-warning"> <!-- 평점 -->
+          <% 
+          let star = 0, star_o = 0;
+          if(review[i][12] === 0 || !review[i][12]) {
+            star_o = 5;
+          } else {
+            star = review[i][12]; 
+            star_o = 5 - review[i][12];
+          }
+          for(let k=0; k<star; k++){ %>
+            <i class="fas fa-star fa-sm mr-0"></i>
+       <%  } 
+          for(let l=0; l<star_o; l++){ %>
+            <i class="far fa-star fa-sm mr-0"></i>
+        <% } %>
+        </span>
+        <span style="font-size:0.8rem; color:rgba(0,0,0,0.5);"><%=review[i][2]%>:</span> <!-- 상위옵션 -->
+        <span style="font-size:0.9rem"><%=review[i][1]%></span> <!-- 하위옵션 -->
+    </p>
+    <div class="mb-1 reviewArea"><%-review[i][9]%></div> <!-- 후기 내용 -->
+    <p class="moreReviewTxt"><i class="fas fa-chevron-down fa-sm mr-1" ></i>자세히 보기</p>
+  </div>
+  <div class="col-md-4 d-flex flex-column justify-content-center">
+    <ul class="reviewImgBox mx-auto">
+      <% 
+      if(review[i][11]){
+         <!-- 사진 업로드 있을 경우 -->
+        let rvimg =[];
+        if(review[i][11].includes('*')){
+          rvimg = review[i][11].split('*');
+        } else {
+          rvimg[0] = review[i][11];
+        }
+        for(let j=0; j<rvimg.length; j++) { %>  
+      <li><img class="img-fluid d-block" src=<%="/upload/"+rvimg[j]%> style="width:85px;height:80px;"></li>
+      <% }
+        } else { %>
+          <!-- 없을경우 기본 이미지  -->
+      <li><img class="img-fluid d-block" src="/images/noimage.jpg" style="width:85px;height:80px;"></li>
+      <% } %>
+    </ul>
+  </div>
+</div>
+<input type="hidden" name="reviewId" value="<%=review[i][6]%>">
+<% } %>

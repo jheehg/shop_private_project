@@ -1,0 +1,31 @@
+<!-- 상품 상세페이지 스크롤 이벤트  -->
+<script>
+const start = $('div.nav_bar').offset().top;
+
+  //상품 정보 네비 고정
+$(window).scroll(()=>{
+  let top = $(this).scrollTop();
+
+  if(top > start) {
+    $('.nav_bar').css('position','fixed')
+    .css('top','0');
+  } else if( top < start ) {
+    $('.nav_bar').css('position','static');
+  }
+})
+
+$(".nav-tabs a").click(function(e){
+  let nab = $(".nav-tabs a").index($(e.target)); 
+  if(nab === 0){
+    let position = $('#productSumm').offset().top-80;
+    $(window).scrollTop(position);
+  } else if(nab === 1) {
+    let position = $('#productReview').offset().top-80;
+    $(window).scrollTop(position); 
+  } else {
+    let position = $('#productDeli').offset().top-70;
+    $(window).scrollTop(position);
+  }
+});
+
+</script>

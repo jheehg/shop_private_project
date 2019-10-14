@@ -1,0 +1,72 @@
+<% include top.ejs %>
+ 
+    <section>
+      <div class="container">
+        <div class="col-md-6 mx-auto">
+          <div class="row">
+            <h5 style="font-weight:bold" class="my-4 mx-auto">비밀번호 찾기</h5>
+          </div>
+          <form action="" name="pwdForm" class="was-validated">
+            <div class="form-group">
+              <label for="pwdForm_email">이메일</label>
+              <input type="text" class="form-control" id="pwdForm_email" 
+                  placeholder="이메일을 입력하세요" name="pwdForm_email" required>
+              <div class="invalid-feedback">필수 항목입니다.</div>
+            </div>
+            <!--  ------------------------------------ -->
+            <h6>비밀번호 발급받으실 방법</h6>
+            <div class="accordion" id="">
+                <div class="card">
+                  <div class="card-header" id="headingOne">
+                      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" 
+                      aria-expanded="true" aria-controls="collapseOne">
+                        <div class="form-group">
+                            <div class="custom-control custom-radio">
+                              <input type="radio" class="custom-control-input" id="pwdForm_phone" 
+                                name="pwdForm_phone" value="phone">
+                              <label class="custom-control-label" for="pwdForm_phone">가입하신 핸드폰으로 찾기</label>
+                            </div>
+                          </div> 
+                      </button>
+                  </div>
+                  <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <div class="card-body">
+                        <div class="form-group">
+                          <label for="dropdown_input_phone">핸드폰</label>
+                          <input type="text" class="form-control" id="dropdown_input_phone" 
+                            placeholder="핸드폰을 입력하세요" name="dropdown_input_phone" required>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="card-header" id="headingTwo">
+                      <button class="btn btn-link collapsed" type="button" data-toggle="collapse" 
+                      data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                          <div class="form-group">
+                              <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="pwdForm_email" name="pwdForm_email"
+                                  value="email">
+                                <label class="custom-control-label" for="pwdForm_email">가입하신 이메일로 발송하기</label>
+                              </div>
+                          </div>
+                      </button>
+                  </div>
+                  <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                    <div class="card-body">
+                   
+                    </div>
+                  </div>
+                </div>
+              </div>
+               <!--  ------------------------------------ -->
+               <div class="form-group text-center">
+                  <button type="submit" class="btn btn-primary">확인</button>
+               </div>
+          </form>
+        </div>
+      </div>
+    </section>
+    
+
+ <% include foot.ejs %>

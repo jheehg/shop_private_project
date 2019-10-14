@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" 
+  integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  <!-- css file (pingendo) -->
+  <link rel="stylesheet" href="/css/theme.css" type="text/css">
+  <!-- css file -->
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-md bg-primary navbar-dark py-1">
+    <div class="container"> 
+      <a class="navbar-brand text-primary" href="#">
+        <b class="text-white"></b>
+      </a> 
+      <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar4">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="top_nav">
+        <ul class="navbar-nav ml-auto">
+           <% if(!isLogin) { %>
+          <li class="nav-item mx-1"> <a class="nav-link" href="/login"><b>로그인</b></a> </li>
+          <li class="nav-item mx-1"> <a class="nav-link" href="/join"><b>회원가입</b></a> </li>
+          <li class="nav-item mx-1"> <a class="nav-link" href="/notice"><b>고객센터</b></a> </li>
+         <% } else { %>
+          <li class="nav-item mx-1"> <a class="nav-link" href="/users/msg"><b>즐겨찾기</b></a> </li>
+          <li class="nav-item mx-1"> <a class="nav-link" href="/logout"><b>로그아웃</b></a> </li>
+          <li class="nav-item mx-1"> <a class="nav-link" href="/notice"><b>고객센터</b></a> </li>
+          <%  } %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3">
+        <a href="/"><img src="/images/logo.jpeg" alt="logo" width="250"></a> <!--홈으로 가기-->
+      </div>
+      <!-- search -->
+      <div class="col-md-6 d-flex flex-row justify-content-center">
+        <form id="searchForm" name="searchForm" class="form-inline" action="/product/search" 
+          method="GET" onsubmit="return searchKeyword()">
+          <div class="form-group mx-auto">  
+            <input type="text" class="form-control form-control-sm" name="keyword"
+             id="keyword" placeholder="검색어를 입력하세요">
+            </div>
+          <div class="form-group mx-auto">
+            <button type="submit" id="searchBtn" class="btn btn-sm">
+              <i class="fas fa-search fa-lg"></i></button>
+          </div>
+        </form>
+      </div>
+      <!--  -->
+      <div class="d-flex align-items-center flex-column col-md-3">
+        <div class="main_icon py-4 w-20" style="display:inline; position:relative;">
+          <a href="http://localhost:3000/users"><i id="mypageIcon" class="far fa-user fa-2x mx-2"></i></a>
+          <a href="/order/cart"><i id="cartIcon" class="fas fa-shopping-cart fa-2x mx-2"></i></a>
+          <% if(isLogin){ %>
+          <a href="/order/cart" class="circleBadge"><span class="circleBadge_num"><%=cartNum||0%></span></a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+    <nav class="navbar navbar-expand-md navbar-light w-100 mb-5">
+      <div class="container justify-content-center"> <button class="navbar-toggler navbar-toggler-right border-0" type="button" data-toggle="collapse" data-target="#navbar3">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse text-center justify-content-around" id="navbar3">
+          <ul class="navbar-nav ml-5">
+            <li class="nav-item mx-2"><a class="nav-link" href="/product/category/bag">가방,파우치</a> </li>
+            <li class="nav-item mx-2"><a class="nav-link" href="/product/category/food">식품</a> </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link a_none" data-toggle="tooltip" title="상품 준비중입니다" href="">악세사리</a>
+             </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link a_none" data-toggle="tooltip" title="상품 준비중입니다" href="">주방,생활용품</a>
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link a_none" data-toggle="tooltip" title="상품 준비중입니다" href="">캔들,디퓨저</a>
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link a_none" data-toggle="tooltip" title="상품 준비중입니다" href="">인기상품</a>
+            </li>
+          </ul>
+          <!---------- 실시간 검색어 ---------->
+          <ul class="navbar-nav keywordRank">
+              <li class="mx-2"></li>
+          </ul>
+          <div id="keywordList"></div>
+          <!------------------------------>
+        </div>
+      </div>
+    </nav>
+    </div>

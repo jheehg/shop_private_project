@@ -28,7 +28,7 @@ app.set('view engine', 'ejs');
 
 
 
-// 미들웨어
+// 미들 웨어
 app.use(logger('dev'));
 app.use('/', static(path.join(__dirname, 'public'))); 
 app.use(express.json());

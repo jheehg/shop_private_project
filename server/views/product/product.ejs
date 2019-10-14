@@ -1,0 +1,147 @@
+<% include ../top.ejs %>
+
+    <section>
+      <div class="container">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="m-4 w-100">
+             <%if(isLogin) { %>
+              <input type="hidden" id="midx" value="<%=loginUser.idx%>">
+              <% } %>
+              <% if(keyword) { %>
+              <p><span id="span_keyword"><%=keyword%></span>의 검색결과 총 <span style="font-size:1.5rem;"><%=cnt%></span> 건</p>
+              <% } else if(category){ %>
+              <span>홈</span>&nbsp;&nbsp; <i class="fas fa-angle-double-right"></i>&nbsp;&nbsp; <span><%=category.kor%></span>
+              <% } %>
+              <form name="sortForm" id="sortForm" method="GET" 
+              '<%=(!category)? action="/product/search": action="/product/category"%>'>
+                <div class="form-group d-flex flex-row justify-content-end">
+                  <input type="hidden" id="getId" name="keyword" value="<%=keyword%>"> 
+                  <label for="sel1"><small>정렬순서</small></label>&nbsp;&nbsp; 
+                  <select class="form-control form-control-sm" name="sort" id="sort" style="width:10%">
+                    <option value="clicks">인기순</option>
+                    <option value="recents">최신순</option>
+                    <option value="reviews">후기많은순</option>
+                    <option value="rating">별점순</option>
+                    <option value="p_high">가격높은순</option> 
+                    <option value="p_low">가격낮은순</option>
+                  </select>
+                </div>
+              </form>
+              <div class="product_div">
+              <% for(let i =0; i<row.length; i++){ %>
+              <ul class="product_list p-3">
+                <li class="product_list_item img">
+                  <a href="/product/detail/<%=row[i][6]%>">
+                    <img class="product_img" src="<%=row[i][0]%>" alt="reviews" width="160" height="140"></a>
+                </li>
+                <li class="product_list_item">
+                  <p class="m-1" style="font-size:0.9rem; color:#807d7d"><%=row[i][5]%></p><!--작가명-->
+                </li>
+                <li class="product_list_item">
+                  <p class="rating mb-0" style="color:#ffc107">
+                  <% 
+                     let star = 0, star_o = 0;
+                     if(row[i][1] === 0 || !row[i][1]) {
+                       star_o = 5;
+                     } else {
+                       star =row[i][1]; 
+                       star_o = 5 - row[i][1];
+                     }
+                     for(let i=0; i<star; i++){
+                  %>
+                        <i class="fas fa-star"></i>
+                  <%  } 
+                      for(let j=0; j<star_o; j++){ %>
+                        <i class="far fa-star"></i>
+                   <% } %>
+                  </p>
+                </li>
+                <li class="product_name product_list_item">
+                    <a href="/product/detail/<%=row[i][6]%>"><p><%=row[i][2]%></p></a><!--상품명-->
+                </li>
+                <li class="product_list_item">
+                  <p style="color:#cf3e2d; font-weight:400; font-size:1.3rem;">
+                    <!--가격-->
+                    <% if(row[i][4]) { %>
+                      <b><%=row[i][4].toLocaleString()%>원</b>
+                      <span id="origin_price"><%=row[i][3].toLocaleString()%>원</span>
+                    <% } else { %> 
+                      <b><%=row[i][3].toLocaleString()%>원</b>
+                      <% } %>
+                    </p>
+                </li>
+                <li class="product_list_item">
+                  <span class="sales_span"><b style="color:#5c92cc"><%=row[i][7]%></b>개 구매</span>
+                  <%if(!isLogin){ %>
+                    <a href="/login"><span class="addbox"><i class="fab fa-gratipay"></i> 즐겨찾기</span></a>
+                    <% } else { %>
+                    <span class="addbox"><a href="#" class="addWishes" data-pid="<%=row[i][6]%>"><i class="fab fa-gratipay"></i> 즐겨찾기</a></span>
+                      <% } %>
+                  </li>
+              </ul> 
+              <% } %>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 d-flex justify-content-center">
+            <ul class="pagination">
+              <li class="page-item"> 
+                <!-- 전 페이지 있을 때 -->
+                  <% if(page.prev>0) { 
+                    if(keyword && !sort){ %>
+                      <a class="page-link" href="/product/search?keyword=<%=keyword%>&cpage=<%=page.prev%>"> 
+                   <% } else if(keyword && sort) { %>
+                      <a class="page-link" href="/product/search?keyword=<%=keyword%>&sort=<%=sort%>&cpage=<%=page.prev%>"> 
+                   <%  } else if(category && !sort){ %>
+                      <a class="page-link" href="/product/category/<%=category%>?cpage=<%=page.prev%>"> 
+                   <%  } else if(category && sort) { %>
+                      <a class="page-link" href="/product/category/<%=category%>?cpage=<%=page.prev%>&sort=<%=sort%>"> 
+                   <%   }
+                    <!-- 전 페이지 없을 때 -->
+                  } else { %>
+                    <a class="page-link"> 
+                   <%   } %> <span>«</span></a> </li>
+                  <% for(let i =1; i<=pageCount; i++) { %>
+              <li class="page-item active"> 
+                <%if(!sort) { 
+                    if(keyword) { %>
+                <a class="page-link" href="/product/search?keyword=<%=keyword%>&cpage=<%=i%>"><%=i%></a> 
+                   <% } else { %>
+                <a class="page-link" href="/product/category/<%=category.en%>?cpage=<%=i%>"><%=i%></a> 
+                 <%  }
+                   } else { 
+                  if(keyword) { %>
+                <a class="page-link" href="/product/search?keyword=<%=keyword%>&sort=<%=sort%>&cpage=<%=i%>"><%=i%></a> 
+                <% } else { %>
+                <a class="page-link" href="/product/category/<%=category.en%>?sort=<%=sort%>&cpage=<%=i%>"><%=i%></a> 
+                <% } }%>
+              </li>
+              <% } %>
+              <li class="page-item">
+                <!-- 다음 페이지 있을 때 -->
+                <% if(page.next>1) { 
+                  if(keyword && !sort){ %>
+                    <a class="page-link" href="/product/search?keyword=<%=keyword%>&cpage=<%=page.next%>"> 
+                 <% } else if(keyword && sort) { %>
+                    <a class="page-link" href="/product/search?keyword=<%=keyword%>&sort=<%=sort%>&cpage=<%=page.next%>"> 
+                 <%  } else if(category && !sort){ %>
+                    <a class="page-link" href="/product/category/<%=category.en%>?cpage=<%=page.next%>"> 
+                 <%  } else if(category && sort) { %>
+                    <a class="page-link" href="/product/category/<%=category.en%>?cpage=<%=page.next%>&sort=<%=sort%>"> 
+                 <%   }
+                  <!-- 다음 페이지 없을 때 -->
+                } else { %>
+                  <a class="page-link"> 
+                 <%  } %>
+              <span>»</span></a> 
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<% include ../foot.ejs %>

@@ -1,0 +1,71 @@
+<% include top.ejs %>
+
+    <div class="py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 mx-auto">
+            <h4 class="text-center mb-4 text-secondary" contenteditable="true"><b>회원가입</b></h4>
+            <form name="joinForm" id="joinForm" action="auth/join" method="POST">
+              <div class="form-group">
+                <label for="uemail">이메일</label>
+                <div class="input-group input-group-sm mb-3">
+                  <input name="uemail" id="uemail" type="email" class="form-control form-control-sm" placeholder="이메일을 입력하세요">
+                  <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" onclick="emailCheck()">중복확인</button>  
+                  </div>
+                </div>
+                <small id="emailCk_result" class="result_txt form-text text-muted"></small>
+              </div>
+              <div class="form-group">
+                <label for="upwd1">비밀번호</label>
+                <input name="upwd1" id="upwd1" type="password" class="chk form-control form-control-sm mb-1" placeholder="비밀번호를 입력하세요">
+                <input name="upwd2" id="upwd2" type="password" class="chk form-control form-control-sm" placeholder="비밀번호를 다시 한번 입력하세요">
+                <small id="pwdCk_result" class="result_txt form-text text-muted"></small>
+              </div>
+              <div class="form-group">
+                <label for="uname">이름</label>
+                <input name="uname" id="uname" type="text" class="chk form-control form-control-sm" placeholder="이름을 입력하세요">
+                <small id="nameCk_result" class="result_txt form-text text-muted"></small>
+              </div>
+              <label for="ubirth1">생년월일</label>
+              <div class="form-row">
+                <div class="form-group col-md-3">
+                  <input name="ubirth1" id="ubirth1" type="text" class="chk form-control form-control-sm">
+                </div>
+                <div class="form-group col-md-3">
+                  <select name="ubirth2" id="ubirth2" class="form-control form-control-sm">
+                    <% for(let i=1; i<=12; i++){ %>
+                    <option value="<%=i%>"><%=i%></option>
+                    <%}%>
+                  </select>
+                </div>
+                <div class="form-group col-md-3">
+                  <input name="ubirth3" id="ubirth3" type="text" class="chk form-control form-control-sm">
+                </div>
+              </div>
+              <small id="birthCk_result" class="result_txt form-text text-muted"></small>
+              <div class="form-group">
+                <label for="utel">전화번호</label>
+                <input name="utel" id="utel" type="text" class="chk form-control form-control-sm" placeholder="전화번호를 입력하세요">
+                <small id="telCk_result" class="result_txt form-text text-muted"></small>
+              </div>
+              <div class="custom-control custom-checkbox mb-1">
+                <input name="agree" id="agree" type="checkbox" class="custom-control-input">
+                <label class="custom-control-label" for="agree">
+                  <a href="#" id="agree_window">약관 동의하기 <span id="agree_span">(필수)</span></a></label>
+                <small id="agree_result" class="result_txt form-text text-muted"></small>
+              </div>
+              <div class="custom-control custom-checkbox mb-2">
+                <input name="eventagree" id="eventagree" type="checkbox" class="custom-control-input" value="yes">
+                <label class="custom-control-label" for="eventagree">이벤트 알림 동의하기</label>
+              </div>
+              <p class="ml-2 mb-5">SMS, 이메일을 통해 쿠폰 및 이벤트 정보를 받아보실 수 있습니다.</p>
+              <div class="btn_box my-4 d-flex justify-content-center">
+                <button type="button" class="btn mx-2 w-50 btn-outline-secondary" onclick="joinCheck()">회원가입</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% include foot.ejs %>

@@ -1,0 +1,229 @@
+<% include ../top.ejs %>
+    <section>
+      <div class="container">
+        <div class="col-md-12">
+          <div class="row mb-3">
+            <small>홈</small>&nbsp;&nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i>&nbsp;&nbsp; 
+            <small><%=row[0][15]%></small>&nbsp;&nbsp;<i class="fa fa-chevron-right" aria-hidden="true"></i> 
+            &nbsp;&nbsp;<small id="pname"><b><%=row[0][2]%></b></small>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div id="carouselBars" class="carousel slide carousel-fade" data-ride="carousel">
+                <ol class="carousel-indicators">
+                 <% let img = row[0][8];
+                    let imgArr = img.split("*");
+                    for(let i=0; i<imgArr.length; i++) { %>
+                  <li data-target="#carouselBars" data-slide-to="<%=i%>" 
+                    class="<%=(i==0)? 'active' :''%>"> </li>
+                  <% } %>
+                </ol>
+                <div class="carousel-inner">
+                <% for(let i=0; i<imgArr.length; i++) { %>
+                    <div class="carousel-item <%=(i==0)? 'active' : ''%> d-flex flex-column align-items-center">
+                       <img class="d-block img-fluid w-75" src="<%=imgArr[i]%>" alt="product">
+                     </div>
+                <% } %>
+                </div>
+              </div>
+              <div class="row">
+                <ul class="my-1 mx-auto pl-0">
+                <% 
+                for(let i=0; i<imgArr.length; i++) { %>
+                  <li class="sub-img">
+                      <a href="#">
+                        <img src="<%=imgArr[i]%>" alt="sub_product" width="80" height="80" ></a>
+                  </li>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-6 py-2 px-3">
+              <small id="cpname"><%=row[0][16]%></small>
+              <p class="my-1"><%=row[0][2]%></p>
+              <% let discount = 0;  
+                if(row[0][4]){ 
+                  discount = (1-(row[0][4]/row[0][3]).toFixed(2))*100;
+                  discount+='%';
+                }%>
+              <h5><small id="discount"><%=(discount!=0)? discount : ''%></small>
+                  <span id="_price"> <b><%=(row[0][4])? 
+                     row[0][4].toLocaleString() :row[0][3].toLocaleString()%></b>원</span></h5>
+              <p class="my-1"><%=row[0][10]%>명의 회원이 구매한 상품입니다.</p>
+              <p>적립금 <span>
+                <%=(!row[0][4])? row[0][3]*0.005:row[0][4]*0.005 %>p</span> (구입하는 상품의 0.5%)</p>
+              <p>배송료 <%=row[0][13].toLocaleString()%>원</p>
+              <form>
+                <div class="form-group opt-group">
+                  <label for="optSel1"><small>옵션</small></label>
+                  <select class="form-control form-control-sm" name="optSel1" id="optSel1">
+                    <option value="none">옵션선택</option>
+                    <% if(opt.length>0){
+                      for(let i=0; i<opt.length; i++){ %>
+                    <option value="<%=opt[i][0]%>"><%=opt[i][1]%></option>
+                    <% }
+                     } else {%>
+                      <option value="0">옵션없음</option>
+                    <% } %>
+                  </select>
+                </div>
+                <!-- 하위옵션 추가되는 부분 -->
+                <div class="form-group opt-group"></div>
+                <!--  -->
+              </form>
+            </div>
+            <div class="col-md-6 p-2 mt-2">
+            </div>
+            <div class="col-md-6">
+              <form id="optForm" name="optForm" style="font-size:0.9rem" method="GET">
+              <!-- 카트에 들어갈 정보 : 카트아이디 / 회원아이디 / 상품아이디 / 수량 / 추가일 -->
+                <input type="hidden" name="pid" value="<%=row[0][0]%>">
+                <input type="hidden" name="uid" value="<%=(loginUser)? loginUser.idx:''%>">
+                <div class="selectList" 
+                style="display:none; border-bottom:1px solid silver; padding: 3px">
+                  <p class="selitem"></p>
+                  <a class="undone" style="float:right"><i class="fas fa-times fa-lg"></i></a>
+                  <input class="qtyInput" name="qty" type="number" style="display:inline; margin:3px"
+                            value="1" min="0" max="1000" step="1" class="form-control-sm">
+                  <input type="hidden" name="oid" value="">
+                </div>
+              </form>
+              <p class="my-2">총 결제금액 
+                <span id="totalPrice" style="font-size:1.5rem">
+                  <% if(opt.length > 0) { %> 
+                      0</span>원</p>
+                  <% } else {
+                       if(row[0][4]){ %>
+                    <%=row[0][4]%></span>원</p>
+                  <%    } else {%>
+                    <%=row[0][3]%></span>원</p>
+                    <% }} 
+                    if(isLogin){%>
+              <button type="button" id="addcartBtn" class="btn btn-outline-dark btn-sm">장바구니 추가</button>
+              <button type="button" id="buyBtn" class="btn btn-outline-dark btn-sm">바로 구매</button>
+              <button type="button" id="addWishesBtn" class="btn btn-outline-danger btn-sm">즐겨찾기 추가</a>
+                  <% } else {%>
+              <a href="/login" class="btn btn-outline-dark btn-sm">장바구니 추가</a>
+              <a class="btn btn-outline-dark btn-sm" href="/login">바로 구매</a>
+              <a class="btn btn-outline-danger btn-sm" href="/login">즐겨찾기 추가</a>
+                  <% } %>
+            </div>
+          </div>
+            <!-- The Modal -->
+            <div class="modal fade" id="addCartModal">
+              <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+            <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">장바구니 추가</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  </div>
+            <!-- Modal body -->
+                  <div class="modal-body">
+                    상품이 장바구니에 담겼습니다
+                  </div>
+            <!-- Modal footer -->
+                  <div class="modal-footer">
+                    <button id="goCartBtn" type="button" class="btn btn-secondary btn-sm">장바구니 확인</a>
+                    <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">계속쇼핑</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--  Modal end -->
+        </div>
+      </div>
+    </section>
+    <!-- 상세 페이지 상품 상세 내용 부분 -->
+    <div class="py-4">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="nav_bar">
+              <ul class="nav nav-tabs">
+                <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#tabone">상세정보</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#tabone">상품후기</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#tabone">배송/교환/환불</a>
+                </li>
+              </ul>
+          </div>
+            <div class="tab-content mt-2">
+              <div class="tab-pane fade in active show" id="tabone" role="tabpanel">
+                <h6 id="productSumm" class="pl-3 my-4">상품 상세 정보</h6><p><%-row[0][6]%></p>
+                <!-- 후기 게시판 부분
+                     후기 데이터 있을 경우 처리 -->
+                <h6 id="productReview"class="pl-3 mt-5">상품 후기</h6>
+                <div class="reviewDiv">
+                <% if(review.length>0) { %>
+                  <% include review.ejs %>
+                <% } %>
+                </div>
+                  <!-- 더 보기 버튼 들어갈 부분 
+                       후기 데이터 없을 경우 버튼 대신 review_none 처리 -->
+                <% if(review.length>0) { %>
+                <div class="col-md-12 d-flex justify-content-center my-3">
+                  <button type="button" id="getMoreReviewBtn">더 불러오기</button>
+                </div>
+                <% } else { %>
+                <% include review_none.ejs %>
+                <% } %>
+                <!-- 후기 게시판 끝 ---------- -->
+                <!-- 배송/교환/환불 정보  -->
+                <h6 id="productDeli" class="pl-3 mt-5">배송/교환/환불 정보</h6>
+                <div class="mx-3">
+                  <div class="row p-2" style="border-top: 1px solid silver;">
+                    <div style="width:20%">
+                      <p>배송정보</p>
+                    </div>
+                    <div style="width:80%">
+                      <pre> 배송기간은 주문일(무통장입금은 결제완료일)로부터 1일(24시간) ~ 5일정도 걸립니다.
+ 단, 지정일 배송이 가능한 플라워 상품이나, 제작기간이 별도로 소요되는 상품의 경우에는 상품설명에 있는
+ 제작기간과 배송시기를 숙지해 주시기 바랍니다. 업체조건배송 상품은 해당 브랜드 배송기준으로 배송비가 부여됩니다.
+ 업체착불배송 상품은 해당 브랜드 배송기준 및 배송지에 따라 배송비가 착불로 부과됩니다. 가구 및 플라워 등의 상품의
+ 경우에는 지역에 따라 추가 배송비용이 발생할 수 있음을 알려드립니다. 해외배송 표시가 되어 있는 상품은 해외 주소로
+ 배송이 가능합니다. (배송방법 : EMS) </pre>
+                    </div>
+                  </div>
+                  <div class="row p-2" style="border-top: 1px solid silver;">
+                    <div style="width:20%">
+                      <p>교환/환불/AS안내</p>
+                    </div>
+                    <div style="width:80%">
+                      <pre> 교환/반품 신청은 배송완료 후 7일 이내 가능합니다.
+ 변심 반품의 경우 왕복배송비를 차감한 금액이 환불되며, 제품 및 포장 상태가 재판매 가능하여야 합니다.
+ 상품 불량인 경우는 배송비를 포함한 전액이 환불됩니다.
+ 출고 이후 환불요청 시 상품 회수 후 처리됩니다.
+ 쥬얼리를 포함한 주문제작 상품/카메라/밀봉포장상품/플라워 등은 변심으로 인한 반품/환불이 불가합니다.
+ 완제품으로 수입된 상품의 경우 A/S가 불가합니다.
+ 상품페이지에 교환/환불/AS에 대한 브랜드 개별기준이 있는 경우에는 해당 내용이 우선 적용 됩니다.</pre>
+                    </div>
+                  </div>
+                  <div class="row p-2" style="border-top: 1px solid silver;border-bottom: 1px solid silver">
+                    <div style="width:20%">
+                      <p>기타 기준 사항</p>
+                    </div>
+                    <div style="width:80%">
+                      <pre> 구매자가 미성년자인 경우에는 상품 구입시 법정대리인이 동의하지 아니하면 미성년자 본인 또는
+ 법정대리인이 구매취소 할 수 있습니다.</pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="tabtwo" class="tab-pane fade">
+              </div>
+              </div>
+              <div id="tabthree" class="tab-pane fade">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+<% include ../scrollEvent.ejs %>
+<% include ../foot.ejs %>

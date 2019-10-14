@@ -1,0 +1,145 @@
+<% include ../top.ejs %>
+
+    <div class="py-3">
+      <div class="container">
+        <div class="row">
+          <p class="mx-auto" style="color:black;font-weight:bold">
+            <span style="color:#8562cc">장바구니</span>&nbsp;&nbsp;<i class="fas fa-angle-double-right"></i>&nbsp; <span>결제하기</span>&nbsp;&nbsp;<i class="fas fa-angle-double-right"></i>&nbsp; <span>완료</span>
+          </p>
+        </div>
+        <div class="row">
+          <div class="col-md-8">
+          <form name="orderList" id="orderList" class="cartForm" method="GET" action="/order">
+            <table class="table table-hover" id="cartTable">
+              <thead>
+                <tr>
+                  <th width="3%" class="text-center"></th>
+                  <th width="15%" class="text-center">상품</th>
+                  <th class="text-center">상품명</th>
+                  <th class="text-center" width="15%">금액</th>
+                  <th width="15%" class="text-center">수량</th>
+                  <th width="10%" class="text-center"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(row.length < 1) { %>
+                  <tr class="text-center">
+                    <td colspan="6">장바구니에 담긴 상품이 없습니다</td>
+                  </tr>
+                <% } else {
+                  for(let i=0; i<row.length; i++) { %>
+                  <tr>
+                    <td class="text-center">
+                      <input type="checkbox" name="ckboxCart" checked>
+                    </td>
+                    <td class="text-center">
+                        <a href="/product/detail/<%=row[i][0]%>"><img src="<%=row[i][1]%>" alt="cartimg" width="70"></a>
+                        <input type="hidden" name="itemImg" value="<%=row[i][1]%>">
+                    </td>
+                    <td>
+                      <small><%=row[i][5]%></small>
+                      <a href="/product/detail/<%=row[i][0]%>"><p><%=row[i][2]%><span>&nbsp;<%=row[i][10]%></span></p></a>
+                      <input type="hidden" name="prodName" value="<%=row[i][2]%>">
+                      <input type="hidden" name="subName" value="<%=row[i][10]%>">
+                      <input type="hidden" name="optId" value="<%=row[i][12]%>">
+                    </td>
+                    <td class="d-flex flex-column align-items-center">
+                      <p class="p-2">
+                          <% let price1 = 0;
+                            if(row[i][4]){
+                              price1 = (parseInt(row[i][4])+parseInt(row[i][11]))*row[i][8];
+                            } else {
+                              price1 = (parseInt(row[i][3])+parseInt(row[i][11]))*row[i][8];
+                            } %>
+                        <span class="priceCart"><%=price1.toLocaleString()%></span>원</p>
+                        <input type="hidden" name="price" value="<%=price1%>">
+                    </td>
+                    <td class="text-center">
+                      <input type="hidden" name="cartId" value="<%=row[i][6]%>">
+                      <input name="qtyCart" type="number" style="width:40px" min="1" value="<%=row[i][8]%>"><br>
+                      <button type="button" class="m-1 btn btn-sm btn-outline-success editVal">수정</button>
+                    </td>
+                    <td class="text-center py-4">
+                      <i class="clrList far fa-times-circle fa-lg" aria-hidden="true"></i>
+                    </td>
+                 </tr>
+                <% } } %>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-4">
+            <table class="table table-hover mb-5" id="cartTableTotal">
+              <thead>
+                <tr>
+                  <th width="15%" class="pl-3">총 결제 금액</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if(row.length < 1) { %>
+                  <tr>
+                      <td>
+                        <p align="right" class="pr-3">상품금액</p>
+                        <p align="right" class="pr-3">
+                          <span>0</span>원</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p align="right" class="pr-3">배송료</p>
+                        <p align="right" class="pr-3">0원</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p align="right" class="pr-3">총 합계</p>
+                        <p align="right" class="pr-3"><span>0</span>원</p>
+                      </td>
+                    </tr>
+                  <% } else {
+                  let sum=0;
+                  for(let i=0; i<row.length; i++){ 
+                    if(row[i][4]){
+                      sum+= (parseInt(row[i][4])+parseInt(row[i][11]))*row[i][8];
+                    } else {
+                      sum+= (parseInt(row[i][3])+parseInt(row[i][11]))*row[i][8];
+                    }
+                  }
+                 %>
+                <tr>
+                  <td>
+                    <p align="right" class="pr-3">상품금액</p>
+                    <p align="right" class="pr-3"><span id="cartSum"><%=sum.toLocaleString()%></span>원</p>
+                    <input type="hidden" name="sumAll" value="<%=sum%>">
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <% let deliFee = 3000;
+                        if(sum >= 50000) deliFee = 0; %>
+                    <p align="right" class="pr-3">배송료</p>
+                    <p align="right" class="pr-3"><span id="cartDeli"><%=deliFee.toLocaleString()%></span>원</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p align="right" class="pr-3">총 합계</p>
+                    <p align="right" class="pr-3"><span id="cartTotal"><%=(sum+deliFee).toLocaleString()%></span>원</p>
+                  </td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </form>
+            <div class="text-center">
+              <% if(row.length < 1){%>
+              <a class="btn btn-outline-secondary" href="javascript:history.back()">뒤로가기</a>
+              <% } else { %>
+              <a class="btn btn-outline-secondary" href="" id="allOrder">전체상품 주문하기</a>
+              <a class="btn btn-outline-secondary" href="" id="ckedOrder">선택상품 주문하기</a>
+              <% }%>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% include ../foot.ejs %>

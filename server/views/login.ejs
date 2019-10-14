@@ -1,0 +1,38 @@
+<% include top.ejs %>
+       
+    <div class="container">
+      <aside class="menu" style="float:left; width:20%;"></aside>
+      <section></section>
+    </div>
+    <div class="py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 mx-auto">
+            <h4 class="text-center mb-4 text-secondary"><b>회원 로그인</b></h4>
+            <form name="loginForm" id="loginForm" action="auth/login" method="POST">
+              <div class="form-group">
+                <label class="lgLabel ml-3">이메일</label><i class="loginI far fa-user"></i>
+                <input name="uemail" id="uemail" type="email" class="lgInput" 
+                       placeholder="이메일을 입력하세요">
+                <small id="loginResult1" class="form-text text-muted"></small>
+              </div>
+              <div class="form-group">
+                <label class="lgLabel ml-3">비밀번호</label><i class="loginI fa fa-key" aria-hidden="true"></i>
+                <input name="upwd" id="upwd" type="password" class="lgInput" 
+                       placeholder="비밀번호를 입력하세요">
+                <small id="loginResult2" class="form-text text-muted"></small>
+              </div>
+              <div class="my-4  d-flex flex-column align-items-center">
+                <button type="button" class="loginBtn mx-2" onclick="loginEnd()">로그인</button>
+              </div>
+              <div class="my-5 d-flex flex-row align-items-center justify-content-center">
+                  <a href="join" class="mx-2">회원가입</a>
+                  <a href="findemail" class="mx-2"> 이메일 찾기</a>
+                  <a href="findpwd" class="mx-2"> 비밀번호 찾기</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% include foot.ejs %>

@@ -1,0 +1,280 @@
+
+/* top */
+#top_nav {
+    color:#f5f5f5;
+}
+input#keyword{
+    width:380px;
+    border-radius:10px;
+}
+div.popOver {
+    position: absolute;
+    border-radius:7px;
+    border: 1px solid black;
+    width: 150px;
+    height: 38px;
+    background-color: rgba(255,255,255,0.5);
+    top: 35px;
+    display: none;
+}
+
+/* 장바구니 몇 개 있는지 표시 badge */
+a.circleBadge {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    top: 22px;
+    right: 0;
+    border-radius: 50%;
+    background-color: #f25a38;
+    z-index: 100;
+
+}
+span.circleBadge_num {
+    font-weight: 600;
+    color : #ffffff;
+}
+
+/* ---- 검색어 순위 ---- */
+
+/* 검색어 - 인터벌로 바뀌는 부분 */
+ul.keywordRank {
+    width: 200px;
+}
+
+ul.keywordRank li {
+    position: relative;
+    font-weight: 400;
+    color: rgba(0,0,0,0.5);
+}
+
+ul.keywordRank .rank {
+   color: #ffffff;
+   background: #28a745;
+   border-radius: 2px;
+}
+
+/* 검색어 - mouseenter시 전체 리스트 */
+#keywordList {
+    position: absolute;
+    right: 80px;
+    top: 10px;
+    border: 2px solid rgba(0,0,0,0.2);
+    z-index: 999;
+    text-align: left;
+    background: #ffffff;
+    display: none;
+    width: 220px;
+    padding: 5px 25px 10px 25px;
+}
+#keywordList p {
+    font-weight: 500;
+    font-size: 1.0rem;
+    margin: 5px 0px 5px 5px;
+    color: rgba(0,0,0,0.5);
+}
+
+#keywordList a {
+    display: block;
+    font-size: 0.9rem;
+    height: 20px;
+    margin: 3px;
+}
+#keywordList a:hover {
+    font-weight: 400;
+}
+
+#keywordList .rank {
+    font-size: 0.8rem;
+    color: #ffffff;
+    background: #28a745;
+    border-radius: 2px;
+    padding: 0 3px;
+    width: 21px;
+    display: block;
+    float: left;
+    text-align: center;
+}
+
+ 
+/* 회원 가입 페이지 */
+small.result_txt {
+    color: #c23b2d;
+}
+
+.validateOk {
+    color : #34a1bf;
+}
+
+span#agree_span{
+    color: #c23b2d;
+    font-weight: 300;
+}
+
+/* 로그인 페이지 */
+.loginBtn {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #ffffff;
+    background : #FFC966;
+    padding : 8px 100px;
+    border: none;
+    border-radius:20px;
+  }
+  
+.loginBtn:hover {
+    animation : btnAnimate 2.3s;
+}
+
+@keyframes btnAnimate{
+  from { padding :  8px 100px; }
+    to { padding :  8px 60px; }
+  }
+.lgInput {
+  display: block;
+  width: 100%;
+  border: none;
+  outline: none;
+  border-bottom: 1.3px solid rgba(0,0,0,0.5);
+  padding: 0 25px;
+}
+
+
+.lgLabel {
+    font-weight: 400;
+}
+.lgLabel + .fa-user{
+    position: absolute;
+    top: 100px;
+    left: 20px;
+}
+.lgLabel + .fa-key{
+    position: absolute;
+    top: 171px;
+    left: 20px;
+}
+
+
+/* 상품 조회 페이지 */
+ul.product_list{
+    width: 25%;
+    float: left;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+p.rating {
+    min-height: 28px;
+    color: #f5dc3d;
+}
+span#origin_price {
+    text-decoration: line-through;
+    color: black;
+    font-size: 0.8rem;
+}
+p > #span_keyword {
+    font-size:1.3rem;
+    font-weight: 400;
+}
+
+li.product_name {
+    height: 76px;
+}
+
+.product_list_item {
+    list-style-type: none;
+}
+
+.product_list_item.img{
+    position: relative;
+}
+
+span.addbox, span.sales_span {
+    font-size: 0.8rem;
+    margin: 0 3px;
+    padding: 4px;
+    border: 1px solid black;
+}
+
+img.product_img {
+    padding: 5px;
+}
+
+img.product_img:hover {
+   opacity: 0.8;
+}
+
+/* 상품 상세 페이지 */ 
+.sub-img {
+    float: left;
+    list-style-type: none;
+}
+
+small#discount {
+    margin-right: 3px;
+    color: #28a745;
+}
+
+p.selitem {
+    word-break: break-all;
+    width: 470px;
+    padding: 0;
+    margin: 0;
+}
+
+/* 상품 상세 페이지 - 후기 게시판 더 불러오기 버튼 */
+#getMoreReviewBtn {
+    background: none;
+    border: 2px solid rgba(0,0,0,0.4);
+    font-size: 0.9rem;
+    color: rgba(0,0,0,0.5);
+    padding : 8px 60px;
+    border-radius: 0px;
+    transition: 0.4s;
+}
+
+#getMoreReviewBtn:hover {
+   box-shadow: 0px 5px 10px 3px rgba(0,0,0,0.1);
+  
+}
+
+/* 후기 업로드 이미지 */
+.reviewImgBox > li{
+    list-style-type: none;
+    float: left; 
+}
+
+/* 상품 상세정보 안 네비 바  */
+div.nav_bar {
+    background: #ffffff;
+    height: auto;
+    width: 100%;
+    z-index: 5;
+}
+/* hover되면 글자 어두워지는 거 수정  */
+#addcartBtn:hover, #buyBtn:hover, #addWishesBtn:hover{
+    color: #ffffff;
+}
+
+/* 결제 확인 페이지 */
+textarea#comment { 
+    resize: none;
+    outline: none;
+}
+
+/* pagination */
+._pagination .pItem {
+    text-decoration: none;
+    display: inline;
+    padding: 5px 11px;
+}
+._pagination .pItem:hover {
+    cursor: pointer;
+}
+.isActive {
+    background-color: #FFC966;
+    border-radius: 50%;
+    color: #ffffff;
+}

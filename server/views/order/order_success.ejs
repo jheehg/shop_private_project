@@ -1,0 +1,95 @@
+<% include ../top.ejs %>
+
+    <div class="py-3">
+      <div class="container">
+        <div class="row">
+          <p class="mx-auto" style="color:black;font-weight:bold">
+            <span>장바구니</span>&nbsp;&nbsp;<i class="fas fa-angle-double-right"></i>&nbsp; <span>결제하기</span>&nbsp;&nbsp;<i class="fas fa-angle-double-right"></i>&nbsp; 
+            <span style="color:#8562cc">완료</span>
+          </p>
+        </div>
+        <div class="col-md-12 d-flex flex-column align-items-center">
+          <img src="/images/undraw_confirmation_2uy0.png" alt="confirm" width="400">
+          <h4 class="mx-auto my-4" style="font-weight:bold">주문이 완료되었습니다.</h4>
+        </div>
+        <h5 class="pl-2">결제 정보</h5>
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-bordered mb-5">
+              <tbody>
+                <tr>
+                  <th width="20%" class="text-center">결제접수일</th>
+                  <% let rdate = row[0][9];
+                     let ryear = rdate.getFullYear();
+                     let rmon = rdate.getMonth()+1;
+                     let rday = rdate.getDate();
+                  %>
+                  <td><%=ryear%>-<%=rmon%>-<%=rday%></td>
+                </tr>
+                <tr>
+                  <th width="20%" class="text-center">결제방법</th>
+                  <td><%=row[0][7]%></td>
+                </tr>
+                <tr>
+                  <th width="15%" class="text-center">총 결제금액</th>
+                  <%
+                  let price = parseInt(row[0][3]);
+                  let mlg = parseInt(row[0][4]);
+                  let deli = parseInt(row[0][5]);
+                  %>
+                  <td><span><%=(price-mlg+deli).toLocaleString()%></span>원</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <h5 class="pl-2">주문 정보</h5>
+        <div class="row">
+          <div class="col-md-12">
+            <table class="table table-bordered">
+              <tbody>
+                <tr>
+                  <th width="20%" class="text-center">주문번호</th>
+                  <td><%=row[0][1]%></td>
+                </tr>
+                <tr>
+                  <th width="20%" class="text-center">주문자 정보</th>
+                  <td>
+                    <p class="m-0 p-0"><b>이름</b> <%=uinfo.uname%></p>
+                    <p class="m-0 p-0"><b>번호</b> <%=uinfo.utel%></p>
+                  </td>
+                </tr>
+                <tr>
+                  <th width="20%" class="text-center">수령자 정보</th>
+                  <td>
+                    <p class="m-0 p-0"><b>이름</b> <%=rinfo.rname%></p>
+                    <p class="m-0 p-0"><b>번호</b> <%=rinfo.tel%></p>
+                    <p class="m-0 p-0"><b>주소</b> <%=rinfo.zcode%><br>
+                      <%=rinfo.addr1%><br><%=rinfo.addr2%>
+                    </p>
+                  </td>
+                </tr>
+                <tr>
+                  <th width="15%" class="text-center">&nbsp;배송메모</th>
+                  <td><%=row[0][10]%></td>
+                </tr>
+                <tr>
+                  <th width="15%" class="text-center">주문상품</th>
+                  <% if(cnt > 1) { %>
+                    <td><%=row[0][14]%> 외 <%=cnt-1%>개</td>
+                  <% } else if( cnt === 1 ){ %>
+                    <td><%=row[0][14]%></td>
+                  <% } %>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row">
+          <div class="row mx-auto m-4">
+            <a class="btn btn-outline-secondary" href="/">쇼핑계속하기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% include ../foot.ejs %>

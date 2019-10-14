@@ -1,0 +1,74 @@
+    <footer style="clear:both;">
+        <div class="py-3">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-6 p-5"><a href="#"><img src="/images/logo.jpeg" 
+                        alt="logo" width="250"></a> 
+                    </div>
+                    <div class="col-lg-4 col-6 p-3">
+                        <p> <a href="https://goo.gl/maps/AUq7b9W7yYJ2" target="_blank">(주)셀프엘프 <br>
+                            대표이사 : 윤혜수,홍주희</a> <br> 서울특별시 영등포구 선유동2로 70, 이화빌딩 2층</p>
+                        <p>사업자 등록번호: 100-22-33384 </p>
+                        <small>셀프엘프는 통신판매중개자이며 통신판매의 당사자가 아닙니다. 따라서 셀프엘프는 상품 거래정보 
+                            및 거래에 대하여 책임을 지지 않습니다.</small>
+                    </div>
+                    <div class="col-md-4 p-3">
+                        <p class="mb-0">고객센터 (주 7일, 오전 10시 ~ 저녁 10시까지)</p>
+                        <p>대표번호 <a>1222-3333</a></p>
+                        <p class="mb-0"> <a href="mailto:info@pingendo.com">info@tististis.com</a> </p>
+                        <p class="mb-0 mt-2">© 2014-2018 Pingendo. All rights reserved</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!----- SSE on Internet Explorer and Edge ------>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/event-source-polyfill/0.0.9/eventsource.min.js"></script>
+    <!---------------------------------------------->
+    <script>
+        const sse = new EventSource("/sse");
+    
+        sse.onmessage = (event)=>{
+           // console.log(event);
+            let list = JSON.parse(event.data).list;
+            let str = `<span class="px-1 mr-2 rank">${list[0][0]}</span><span>${list[0][1]}</span>`;
+            let i = 1;
+            $('.keywordRank li').html(str);
+            setInterval(()=>{
+                $('.keywordRank li')
+                .html(`<span class="px-1 mr-2 rank">${list[i][0]}</span><span>${list[i][1]}</span>`);
+                i++;
+                if(i > 9) i = 0; 
+            }, 3000);
+           
+            let str2 ='<p>실시간 인기 검색어</p>';
+            list.forEach((lt, idx)=>{
+                str2 +=`<a href="/product/search?keyword=${lt[1]}">
+                        <span class="mr-2 rank">${lt[0]}</span><span>${lt[1]}</span></a>`;
+            });
+            $('.keywordRank').mouseenter(()=>{
+                $('#keywordList').show().html(str2);
+            });
+            $('#keywordList').mouseleave(()=>{
+                $('#keywordList').hide();
+            });
+        };
+      
+        sse.onerror = (err)=>{
+            sse.close();
+        }
+    </script>
+    <script src="/js/cart.js"></script>
+    <script src="/js/findInfo.js"></script>
+    <script src="/js/header.js"></script>
+    <script src="/js/join.js"></script>
+    <script src="/js/login.js"></script>
+    <script src="/js/order.js"></script>
+    <script src="/js/product_detail.js"></script>
+    <script src="/js/product.js"></script>
+    <script src="/js/review.js"></script>
+    <script src="/js/validate.js"></script>
+    <script src="/js/zipcode.js"></script>
+    <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+  </body>
+  </html>
