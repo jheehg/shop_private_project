@@ -1,10 +1,12 @@
-##프로젝트 개요
+## 프로젝트 개요
 
 node.js, react 기반의 쇼핑몰 프로젝트
 
 
 
-##사용 기술 및 라이브러리
+
+
+## 사용 기술 및 라이브러리
 
 * Front-end
 
@@ -20,6 +22,8 @@ node.js, react 기반의 쇼핑몰 프로젝트
 
   
 
+
+
 ## 기능
 
 * 회원 관련 기능 - 로그인, 회원가입, 회원정보 수정, 회원정보 찾기, *회원 탈퇴*(진행중)
@@ -29,13 +33,15 @@ node.js, react 기반의 쇼핑몰 프로젝트
 
 
 
+
+
 ## 실행 결과
 
 * 결제 과정
 
   
 
-![purchase](/Users/juheehong/Downloads/ezgif.com-video-to-gif.gif)
+![purchase_gif](https://user-images.githubusercontent.com/56527636/66799405-d9f7eb80-ef4b-11e9-89e2-0742345adba6.gif)
 
 
 
