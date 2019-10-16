@@ -116,8 +116,8 @@ class Review extends Component {
                                                 delReviewCb={this.delReview}/>
                             }) : <div className="text-center"><p>후기 목록이 비어있습니다</p></div>}
                                 </div>
+                                <Pagination/>    
                             </div>
-                        <Pagination/>
                         </div>
                     </section>
                 <Footer/>

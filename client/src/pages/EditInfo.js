@@ -19,7 +19,7 @@ class EditInfo extends Component {
             uemail: '', utel:'',
             upwd1 :'', upwd2: '', uimg :'', 
             originImg: '', ubirth:'', loginSession : false,
-            eventAgree : false,
+            eventAgree : null,
             selectedFile : null, //첨부되는 파일객체
             isValidated : false, //본인인증 성공 여부
             valiModal : false //modal
@@ -117,8 +117,8 @@ class EditInfo extends Component {
             uidx : user.useridx, uname :user.username,
             uemail: user.useremail, utel:user.usertel,
             upwd1 :'', upwd2: '', uimg : user.userimg, 
-            originImg: user.originImg, loginSession :user.loginSession,
-            eventAgree : (user.agreement==='yes')?true:false, 
+            originImg: user.originImg, loginSession : user.loginSession,
+            eventAgree : (user.agreement==='yes')? true : null, 
             ubirth:user.userbirth,
             selectedFile : null
         })
@@ -135,7 +135,14 @@ class EditInfo extends Component {
         reader.readAsDataURL(input.files[0]);
         }
     }
-        
+    changeCheck = (e)=>{    // checkbox 다시 보기
+        if(this.state.eventAgree){
+            this.setState({ eventAgree : null })
+        } else {
+            this.setState({ eventAgree : true })
+        }
+    }
+   
     render() {
         let warn = '형식에 맞지 않습니다.';
         let imgAvailable =this.state.uimg? true : false;
@@ -289,9 +296,9 @@ class EditInfo extends Component {
                                         <input type="checkbox" 
                                                className="custom-control-input" 
                                                name="editAgree" 
-                                               onChange={(e)=>{ 
-                                                   this.setState({ eventAgree : !this.state.eventAgree})
-                                               }}/>
+                                               check={this.state.eventAgree}
+                                               onChange={this.changeCheck     
+                                               }/>
                                         <label className="custom-control-label mt-4" htmlFor="editAgree">
                                             SMS, 이메일을 통해 할인 및 이벤트 정보 수신 동의 여부</label>
                                     </div>

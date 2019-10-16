@@ -253,16 +253,15 @@ DB.getPurchaseInfo = async (uidx, cpage = null, page = null)=>{
         //가장 최근에 구매한 내역 or 구매내역 or 취소내역 
         sql3 = 
         `select * from
-        (select rownum rn, b.* from
-        (select a.order_id, a.total, a.total_by_mileage, a.delivery_fee, a.delivery_status, 
-        a.odate, a.cancel_stat, a.payment_status, a.cancel_date from
-        (select * from order_detail where mem_idx_fk = :idx) a) b
-        where cancel_stat = `;
+        (select rownum, a.*, row_number() over (order by rownum desc)as rn from
+        (select order_id, total, total_by_mileage, delivery_fee, delivery_status, 
+        odate, cancel_stat, payment_status, cancel_date from order_detail where mem_idx_fk = :idx) a
+        where a.cancel_stat = `;
         if(cpage) sql3 += (page==='purchase')? 
-                        `'no' order by odate desc) where rn between :st and :ed` : 
-                        `'yes' order by odate desc) where rn between :st and :ed`;
-        else sql3 +=`'no' order by odate desc) where rn = 1`;
-        
+                        `'no' order by a.odate desc) where rn between :st and :ed` : 
+                        `'yes' order by a.odate desc) where rn between :st and :ed`;
+        else sql3 +=`'no' order by a.odate desc) where rn = 1`;
+       
         try {
             if(page!=='cancel') {
                 result1 = await connection.execute(sql1, [uidx]);

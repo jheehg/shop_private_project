@@ -17,7 +17,7 @@ const propTypes = {
 const Pagination =({prvnxt, currentPage, pageCount})=>{
     const [ cpage, setCpage ] = useState(1);
 
-    let pageNum;
+    let pageNum = [];
    
     useEffect(()=>{
        console.log(cpage, prvnxt, currentPage, pageCount);
@@ -25,11 +25,12 @@ const Pagination =({prvnxt, currentPage, pageCount})=>{
         
     let uidx = JSON.parse(localStorage.getItem('user')).useridx;
     for(let i=1; i<=pageCount; i++){
-        pageNum = <li className={i===cpage? 'pItem isActive':'pItem'}
-                      onClick={()=>{ 
-                          currentPage(uidx,i);
-                          setCpage(i);
-                      }}>{i}</li>;
+        pageNum.push(
+            <li className={i===cpage? 'pItem isActive':'pItem'}
+                onClick={()=>{ 
+                    currentPage(uidx,i);
+                    setCpage(i);}}>{i}</li>
+                    );
     }
     return (
         <div className="mt-4" style={{width:'95%'}}>
